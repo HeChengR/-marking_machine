@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src='../../../jquery/jquery-1.12.4.js'></script>
+</head>
+<body>
+<div id='autoText'>
+    <p>一场雨,把我停在这里。你冷落的表情会让我伤心。六月的雨。</p>
+    <br>
+    <p>亲爱的 你慢慢飞 小心前面带刺的玫瑰</p>
+    <br>
+    <p>我和你缠缠绵绵偏偏飞</p>
+</div>
+<script>
+    $.fn.autoText = function () {
+        var $text = $(this),
+                text = $text.html(),
+                index = 0,
+                timer = setInterval(function () {
+                    //截取从index下标开始指定个数的字符。可以是负数
+                    var current = text.substr(index, 1);
+                    if (current == '<') {
+                        //返回指定的字符在字符串中首次出现的位置。如果字符串中没有该值，则返回-1  要区分大小写。
+                        index = text.indexOf('>', index) + 1;
+                    } else {
+                        index++;
+                    }
+                    //截取从第一个参数的下标开始到第二个参数下标的字符。不包括第二个参数的字符。不能是负数。没有slice灵活。
+                    $text.html(text.substring(0, index) + (index & 1 ? '_' : ''));
+                    if (index >= text.length) {
+                        clearInterval(timer);
+                    }
+                }, 100);
+    }
+    $('#autoText').autoText();
+</script>
+</body>
+</html>
